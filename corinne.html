@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corinne :)</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #fce4ec;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .frog {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            width: 600px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .frog.jump {
+            transform: translateY(-20px);
+        }
+        #message {
+            font-size: 24px;
+            margin-top: 20px;
+            display: none;
+        }
+        .btn {
+            font-size: 18px;
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .yes { background-color: #4CAF50; color: white; }
+        .no { background-color: #FF3B3B; color: white; }
+        .hidden { display: none; }
+        #confetti-canvas {
+            position: fixed; 
+            z-index: 999; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Click the frog and snake, they gotta ask u somethin'</h1>
+        <img src="frog_n_snek.png" alt="Frog" class="frog" id="frog">
+        <div id="message">
+            <p>Will you be my Valentine? ❤️</p>
+            <button class="btn yes" id="yes-btn">Yes!</button>
+            <button class="btn no" onclick="sadFrog()">No :(</button>
+        </div>
+    </div>
+    <canvas id="confetti-canvas"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const frog = document.getElementById("frog");
+        const message = document.getElementById("message");
+        const yesBtn = document.getElementById("yes-btn");
+        const canvas = document.getElementById("confetti-canvas");
+        
+        frog.addEventListener("click", function() {
+            frog.classList.add("jump");
+            setTimeout(() => frog.classList.remove("jump"), 300);
+            setTimeout(() => message.style.display = "block", 500);
+        });
+
+        function confettiExplosion() {
+            var myConfetti = confetti.create(canvas, {
+                resize: true,
+                useWorker: true
+            });
+            myConfetti({
+                particleCount: 100,
+                spread: 160
+            });
+        }
+
+        function sadFrog() {
+            frog.src = "frog_n_snek_sad.png"; // Change to sad frog image
+        }
+
+        yesBtn.addEventListener("click", function() {
+            // Change the frog image and start the bouncing
+            frog.src = "frog_n_snek_yes.png";
+            frog.classList.add("jump"); // Start the jumping animation
+
+            // Run confetti every second
+            setInterval(confettiExplosion, 1000); 
+        });
+    </script>
+</body>
+</html>
+
